@@ -25,13 +25,6 @@ type ResponseError = {
   error: string;
 }
 
-type FetchedAddress = {
-  logradouro: string;
-  bairro: string;
-  localidade: string;
-  uf: string; 
-}
-
 const formSchema = yup.object().shape({
   name: yup.string().required('Nome obrigatório').min(7, 'O nome deve ter mais que 7 caracteres'),
   email: yup.string().required('E-mail obrigatório').email('Digite um email válido'),
@@ -48,26 +41,12 @@ const formSchema = yup.object().shape({
 export function Form() {
   const [successSubmitting, setSuccessSubmiting] = useState(false);
   const [internalErrorSubmitting, setInternalErrorSubmitting] = useState(false);
-  const [fetchedAddress, setFetchedAddress] = useState({} as FetchedAddress);
 
-  const { register, handleSubmit, formState, setError, getValues, reset } = useForm({
+  const { register, handleSubmit, formState, setError } = useForm({
     resolver: yupResolver(formSchema),
   });
 
   const { errors } = formState;
-
-  const handleFetchAddress = async () => {
-    if (getValues('addressZip').match(/\d/g)?.join("").length === 8) {
-      const zip = getValues('addressZip').match(/\d/g)?.join("");
-      try {
-        const response =  await api.get(`https://viacep.com.br/ws/${zip}/json/`);
-  
-        setFetchedAddress(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }
 
   const handleFormSubmit: SubmitHandler<FormData> = async (values) => {
     const formattedValues = {
@@ -107,7 +86,7 @@ export function Form() {
           <Input autoFocus id="name" type="text" error={errors.name} label="Nome" {...register('name')} />
           <Input id="email" type="email" error={errors.email} label="E-mail" {...register('email')} />
           <Input id="phone" type="tel" error={errors.phone} label="Telefone" {...register('phone')} />
-          <Input id="addressZip" onKeyUp={handleFetchAddress} type="text" error={errors.addressZip} label="CEP" {...register('addressZip')} />
+          <Input id="addressZip" type="text" error={errors.addressZip} label="CEP" {...register('addressZip')} />
           <fieldset>
             <Input id="addressStreet" type="text" error={errors.addressStreet} label="Logradouro" {...register('addressStreet')} />
 
