@@ -7,7 +7,7 @@
 consiste em um formulário simples de envio de dados para uma api externa, tendo que lidar com suas validações e fluxos alternativos.
 </p>
 
-<p>Link para o projeto online: <a href="https://gitlab.com/bossabox/challenge-fake-api/tree/master">projeto</a>.</p>
+<p>Link para o projeto online: <a href="https://pensive-leavitt-406c66.netlify.app/">projeto</a>.</p>
 
 ## 📑 Tecnologias
 <p>Abaixo algumas das tecnologias usadas:</p>
